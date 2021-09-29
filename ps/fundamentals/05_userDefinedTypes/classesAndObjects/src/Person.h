@@ -9,6 +9,7 @@ private:
 
 public:
   Person(std::string first, std::string last, int age); // constructor
-  Person() = default;
+  Person();
+  ~Person();
   std::string getName();
 };
