@@ -10,12 +10,15 @@ int main() {
   double d1 = 2.2;
   double d2 = i1;
   int i5 = d1; // 2
+  int i6 = static_cast<int>(d1);
   char c1 = 'a';
   bool flag = false;
   flag = i1;   // true
 
   auto a1 = 1;
   auto a2 = 2.2;
+  a1 = static_cast<int>(a2)
+    
   auto a3 = 'c';
   auto a4 = "s";
   auto a5 = true;
