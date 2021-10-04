@@ -1,17 +1,20 @@
 #include <iostream>
+using std::cout;
+using std::endl;
+using std::string;
 
-#include "Person.h"
+//#include "Person.h"
+#include "Tweeter.h"
 
 
 int main() {
   Person p1("Bob", "Dobolina", 47);
   {
-    // Construct and immediately remove from scope to see destructor time
-    Person p2; 
+    Tweeter t1("Justin", "Case", 22, "@insurance");
+    string name2 = t1.getName();
   }
-  std::cout << "finished p2 block" << std::endl;
-  std::string name = p1.getName();
-  //int i = p1.age; // private (inaccessible)
+  cout << "After t1 block" << endl;
+  string name = p1.getName();
   
   return 0;
 }

@@ -12,4 +12,5 @@ public:
   Person();
   ~Person();
   std::string getName();
+  int getAge();
 };
