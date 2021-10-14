@@ -5,6 +5,7 @@ using std::string;
 
 //#include "Person.h"
 #include "Tweeter.h"
+#include "status.h"
 
 
 int main() {
@@ -15,6 +16,15 @@ int main() {
   }
   cout << "After t1 block" << endl;
   string name = p1.getName();
+
+  Status s = Pending;
+  s = Approved;
+  
+  FileError fe = FileError::notFound;
+  fe = FileError::ok;
+
+  NetworkError ne = NetworkError::clientError;
+  ne = NetworkError::ok;
   
   return 0;
 }
