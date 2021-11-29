@@ -22,19 +22,3 @@ Person::~Person() {
 std::string Person::getName() const {
   return firstname + " " + surname;
 }
-
-
-bool Person::operator<(Person const& p) const {
-  return age < p.age;
-}
-
-
-bool Person::operator<(int i) const {
-  return age < i;
-}
-
-
-bool operator<(int i, Person const& p) {
-  // return i < p.getAge(); // if not friend
-  return i < p.age; // allowed for friend
-}
