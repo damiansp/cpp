@@ -16,7 +16,7 @@ void swap_in_place(int* pa, int* pb) {
   *pb = temp;
 }
 
-int main() {
+int main(void) {
   int a = 21;
   int b = 17;
   swap(a, b);

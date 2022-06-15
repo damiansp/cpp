@@ -5,7 +5,7 @@ struct S {
 };
 
 
-int main() {
+int main(void) {
   unsigned char bad_buff[sizeof(struct S)];
   struct S* bad_s_ptr = (struct S*) bad_buff; // wrong pointer alignment
 
