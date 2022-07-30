@@ -39,7 +39,7 @@ void print_struct2(LeStruct s) {
 }
 
 void print_struct_ref(struct MyStruct *s) {
-  printf("(Printing by reference...)\n");
+  printf("(Printing by reference...\n");
   printf("Struct has member variables:\n");
   printf("  c -> %c\n", s->c);
   printf("  x -> %d\n", s->x);
@@ -50,7 +50,7 @@ void print_struct_ref(struct MyStruct *s) {
 int main(void) {
   struct MyStruct s = create_struct('a', 12, 3.456);
   print_struct(s);
-  print_struct_ref(&s);
+  print_stuct_ref(&s);
   LeStruct ls = {'o', 78, 9.012};
   print_struct2(ls);
 }
