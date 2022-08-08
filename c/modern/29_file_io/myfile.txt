@@ -1,0 +1,3 @@
+A sample file
+with some sample text.
+That is all.
