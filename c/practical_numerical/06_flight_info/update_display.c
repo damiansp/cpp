@@ -84,3 +84,42 @@ int main() {
 
   return 0;
 }
+
+
+void non_rollup() {
+  printf("\nEnter flight no. (max 10): ");
+  scanf("%s", &flight_no);
+  printf("Flight no: %s\n", flight_no);
+  printf("\nField to change:\n");
+  printf(" 1) Sched\n 2) Exp\n 3) Origin\n 4) Remarks\n > ");
+  scanf("%d", &opt);
+  switch (opt) {
+    case 1:
+      printf("\nEnter new sched: ");
+      scanf("%s", new_sch_arr_time);
+      printf("\nNew scheduled arrival time: %s", new_sch_arr_time);
+      for (i = 0; i < 17; i++) {
+        ret = strcmp(flight_no, arr_arr[i].flight_no);
+        if (ret == 0) {
+          strcpy(arr_arr[i].sch_arr_time, new_sch_arr_time);
+          printf("\nStored sched is: %s", arr_arr[i].sch_arr_time);
+          printf("\nFlight no.: %s", &flight_no);
+          printf("\nStruct flight no.: %s", arr_arr[i].flight_no);
+        }
+      }
+      break;
+    case 2:
+      printf("\nEnter new exp: ");
+      scanf("%s", &new_exp_arr_time);
+      printf("\nNew exp is: %s", new_exp_arr_time);
+      for (i = 0; i < 17; i++) {
+        ret = strcmp(arr_arr[i].exp_arr_time, new_exp_arr_time);
+        printf("\nStored exp is: %s", arr_arr[i].exp_arr_time);
+        printf("\nFlight no.: %s", &flight_no);
+        printf("\nsStruct flight no.: %s", arr_arr[i].flight_no);
+      }
+      break;
+    case 3:
+      // todo
+  }
+}
