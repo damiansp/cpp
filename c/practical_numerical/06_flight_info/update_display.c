@@ -39,7 +39,7 @@ int ret;
 int opt, opt2;
 int eof_check;
 int lim;
-int remans;
+int remark_no;
 int i;
 
 FILE *source, *target;
@@ -103,7 +103,7 @@ void non_rollup() {
         if (ret == 0) {
           strcpy(arr_arr[i].sch_arr_time, new_sch_arr_time);
           printf("\nStored sched is: %s", arr_arr[i].sch_arr_time);
-          printf("\nFlight no.: %s", &flight_no);
+          printf("\nFlight no.: %s", flight_no);
           printf("\nStruct flight no.: %s", arr_arr[i].flight_no);
         }
       }
@@ -113,13 +113,62 @@ void non_rollup() {
       scanf("%s", &new_exp_arr_time);
       printf("\nNew exp is: %s", new_exp_arr_time);
       for (i = 0; i < 17; i++) {
-        ret = strcmp(arr_arr[i].exp_arr_time, new_exp_arr_time);
-        printf("\nStored exp is: %s", arr_arr[i].exp_arr_time);
-        printf("\nFlight no.: %s", &flight_no);
-        printf("\nsStruct flight no.: %s", arr_arr[i].flight_no);
+        ret = strcmp(flight_no, arr_arr[i].flight_no);
+        if (ret == 0) {
+          strcpy(arr_arr[i].exp_arr_time, new_exp_arr_time);
+          printf("\nStored exp is: %s", arr_arr[i].exp_arr_time);
+          printf("\nFlight no.: %s", flight_no);
+          printf("\nStruct flight no.: %s", arr_arr[i].flight_no);
+        }
       }
       break;
     case 3:
-      // todo
+      printf("\nEnter new origin: ");
+      scanf("%s", new_origin);
+      printf("\nNew origin is: %s", new_origin);
+      for (i = 0; i < 17; i++) {
+        ret = strcmp(flight_no, arr_arr[i].flight_no);
+        if (ret == 0) {
+          strcpy(arr_arr[i].origin, new_origin);
+          printf("\nStored origin is: %s", arr_arr[i].origin);
+          printf("\nFlight no.: %s", flight_no);
+          printf("\nStruct flight no: %s", arr_arr[i].flight_no);
+        }
+      }
+      break;
+    case 4:
+      printf("\nEnter no. of remark:\n");
+      printf("  1) On Approach\n");
+      printf("  2) Delayed\n");
+      printf("  3) Landed\n");
+      scanf("%d", &remark_no);
+      switch (remark_no) {
+        case 1:
+          strcpy(new_remarks, "On Approach");
+          break;
+        case 2:
+          strcpy(new_remarks, "Delayed");
+          break;
+        case 3:
+          strcpy(new_remarks, "Landed");
+          break;
+        default:
+          break;
+      }
+      printf("\nFligh no. is: %s", flight_no);
+      printf("\nNew remarks: %s", new_remarkds);
+      for (i = 0; i < 17; i++) {
+        ret = strcmp(flight_no, arr_arr[i].flight_no);
+        if (ret == 0) {
+          strcpy(arr_arr[i].remarks, new_remarks);
+          printf("\nStored remarks: %s", arr_arr[i].remarks);
+          printf("\nFlight no.: %s", flight_no);
+          printf("\nStruct flight no.: %s", arr_arr[i].flight_no);
+        }
+      }
+      break;
+    default:
+      printf("\nError\n");
   }
+  fp_arr = fopen("arrivals.dat", "w");
 }
