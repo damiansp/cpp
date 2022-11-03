@@ -10,7 +10,7 @@ void print_array(int len, int arr[], char *str) {
 }
 
 
-void merge_sort(int sub_a[], int sub_b[], int merged[], int len) {
+void merge_sub(int sub_a[], int sub_b[], int merged[], int len) {
   /* sub_a and sub_b must be the same size; merged must be 2x the size of subs */
   int i = 0,
     j = 0,
@@ -24,14 +24,25 @@ void merge_sort(int sub_a[], int sub_b[], int merged[], int len) {
 }
 
 
+void merge_sort(int key[], int len) {
+  /* for this example, <len> expected to be a power of 2 */
+  int j, k;
+  int w[len];
+  for (k = 1; k < len; k *= 2) {
+    for (j = 0; j < len - k; j += 2*k) {
+      merge_sub(key + j, key + j + k, w + j, k);
+    }
+    for (j = 0; j < len; j++) { key[j] = w[j]; }
+  }
+}
+
+
 int main() {
-  const int SIZE = 5;
-  int sub_a[SIZE] = {67, 82, 83, 88, 99};
-  int sub_b[SIZE] = {58, 69, 72, 81, 88};
-  int merged[2 * SIZE];
-  print_array(SIZE, sub_a, "A:\n");
-  print_array(SIZE, sub_b, "\nB:\n");
-  merge_sort(sub_a, sub_b, merged, SIZE);
-  print_array(2 * SIZE, merged, "\nMerged:\n");
+  const int SIZE = 8;
+  int arr[SIZE] = {99, 82, 74, 85, 92, 67, 76, 49};
+  print_array(SIZE, arr, "A:\n");
+  merge_sort(arr, SIZE);
+  printf("\n");
+  print_array(SIZE, arr, "Sorted:\n");
   printf("\n");
 }
