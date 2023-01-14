@@ -71,17 +71,18 @@ void deal_hand(int deck[N_SUITS][MAX_FACE], int hand[][2], int n_cards) {
 void print_hand(int hand[][2], int n_cards) {
   for (int card = 0; card < n_cards; card++) {
     printf("The %s of %s\n", faces[hand[card][0]], suits[hand[card][1]]);
-  }  
+  }
+  printf("\n");
 }
 
 
 void examine_hand(int hand[][2], int n_cards) {
   void check_for_n_of_a_kind(int hand[][2], int n_cards);
-  //void check_for_flush(int hand[][2], int n_cards);
+  void check_for_flush(int hand[][2], int n_cards);
   //void check_for_straight(int hand[][2], int n_cards);  
   
   check_for_n_of_a_kind(hand, n_cards);
-  //check_for_flush(hand, n_cards);
+  check_for_flush(hand, n_cards);
   //check_for_straight(hand, n_cards);
 }
 
@@ -96,6 +97,21 @@ void check_for_n_of_a_kind(int hand[][2], int n_cards) {
   for (int face = 0; face < MAX_FACE; face++) {
     if (matches[face] > 1) {
       printf("Hand has %d %ss\n", matches[face], faces[face]);
+    }
+  }
+}
+
+
+void check_for_flush(int hand[][2], int n_cards) {
+  int matches[N_SUITS] = {0};
+  int const min_for_flush = 5;
+
+  for (int card = 0; card < n_cards; card++) {
+    matches[hand[card][1]]++;
+  }
+  for (int suit = 0; suit < N_SUITS; suit++) {
+    if (matches[suit] >= min_for_flush) {
+      printf("Hand has a flush of %s\n", suits[suit]);
     }
   }
 }
