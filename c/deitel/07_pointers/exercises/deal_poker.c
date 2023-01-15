@@ -79,11 +79,11 @@ void print_hand(int hand[][2], int n_cards) {
 void examine_hand(int hand[][2], int n_cards) {
   void check_for_n_of_a_kind(int hand[][2], int n_cards);
   void check_for_flush(int hand[][2], int n_cards);
-  //void check_for_straight(int hand[][2], int n_cards);  
+  void check_for_straight(int hand[][2], int n_cards);  
   
   check_for_n_of_a_kind(hand, n_cards);
   check_for_flush(hand, n_cards);
-  //check_for_straight(hand, n_cards);
+  check_for_straight(hand, n_cards);
 }
 
 
@@ -104,7 +104,7 @@ void check_for_n_of_a_kind(int hand[][2], int n_cards) {
 
 void check_for_flush(int hand[][2], int n_cards) {
   int matches[N_SUITS] = {0};
-  int const min_for_flush = 5;
+  const int min_for_flush = 5;
 
   for (int card = 0; card < n_cards; card++) {
     matches[hand[card][1]]++;
@@ -112,6 +112,31 @@ void check_for_flush(int hand[][2], int n_cards) {
   for (int suit = 0; suit < N_SUITS; suit++) {
     if (matches[suit] >= min_for_flush) {
       printf("Hand has a flush of %s\n", suits[suit]);
+    }
+  }
+}
+
+
+void check_for_straight(int hand[][2], int n_cards) {
+  int matches[MAX_FACE + 1] = {0};
+  int n_consecutive = 0;
+  const int min_for_straight = 5;
+
+  for (int card = 0; card < n_cards; card++) {
+    matches[hand[card][0]]++;
+    if (hand[card][0] == 0) {    // if Ace
+      matches[MAX_FACE]++;  // count as high card (as well as low)
+    }
+  }
+  for (int face = 0; face < MAX_FACE; face++) {
+    if (matches[face] > 0) {
+      n_consecutive++;
+      if (n_consecutive >= min_for_straight) {
+        printf("Hand has a straight");
+        return;
+      }
+    } else {
+      n_consecutive = 0;
     }
   }
 }
