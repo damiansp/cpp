@@ -22,14 +22,20 @@ void examine_hand(int hand[][2], int n_cards);
 int main(void) {
   int deck[N_SUITS][MAX_FACE] = {0};
   const int n_cards = 5;
-  int hand[n_cards][2] = {0};
+  int hand1[n_cards][2] = {0};
+  int hand2[n_cards][2] = {0};
 
-  srand(time(0)); // seed randgen
+  srand(time(NULL)); // seed randgen
 
   shuffle(deck);
-  deal_hand(deck, hand, n_cards);
-  print_hand(hand, n_cards);
-  examine_hand(hand, n_cards);
+  deal_hand(deck, hand1, n_cards);
+  printf("Player 1's hand:\n");
+  print_hand(hand1, n_cards);
+  examine_hand(hand1, n_cards);
+  deal_hand(deck, hand2, n_cards);
+  printf("\n\nPlayer 2's hand:\n");
+  print_hand(hand2, n_cards);
+  examine_hand(hand2, n_cards);
   return 0;
 }
 
@@ -61,6 +67,7 @@ void deal_hand(int deck[N_SUITS][MAX_FACE], int hand[][2], int n_cards) {
         if (deck[suit][face] == card) {
           hand[card][0] = face;
           hand[card][1] = suit;
+          deck[suit][face] = -1;
         }
       }
     }
