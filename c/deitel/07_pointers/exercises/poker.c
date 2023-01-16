@@ -23,16 +23,19 @@ void shuffle(struct deck_of_cards* deck);
 struct playing_card digit_to_card(int n);
 void print_card(struct playing_card* card);
 void print_deck(struct deck_of_cards* deck);
+struct playing_card deal_card(struct deck_of_cards* deck);
 void deal_hand(
   struct deck_of_cards* deck, struct playing_card hand[], int n_cards);
 void print_hand(struct playing_card hand[], int n_cards);
-void examine_hand(int hand[][2], int n_cards);
+void examine_hand(struct playing_card hand[], int n_cards);
 
 
-const char *faces[MAX_FACE] = {
-  "Ace", "Deuce", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
-  "Ten", "Jack", "Queen", "King"};
-const char *suits[N_SUITS] = {"Hearts", "Diamonds", "Clubs", "Spades"};
+const char *FACES[MAX_FACE] = {
+  "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+  //"Ace", "Deuce", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+  //"Ten", "Jack", "Queen", "King"};
+const char *SUITS[N_SUITS] = {"♥", "♦", "♣", "♠"};
+//{"Hearts", "Diamonds", "Clubs", "Spades"};
 
 
 int main(void) {
@@ -48,11 +51,11 @@ int main(void) {
   deal_hand(&deck, hand1, n_cards);
   printf("Player 1's hand:\n");
   print_hand(hand1, n_cards);
-  //examine_hand(hand1, n_cards);
+  examine_hand(hand1, n_cards);
   deal_hand(&deck, hand2, n_cards);
   printf("\n\nPlayer 2's hand:\n");
   print_hand(hand2, n_cards);
-  //examine_hand(hand2, n_cards);
+  examine_hand(hand2, n_cards);
   return 0;
 }
 
@@ -95,7 +98,7 @@ struct playing_card digit_to_card(int n) {
 
 
 void print_card(struct playing_card* card) {
-  printf("%s of %s\n", faces[card->face], suits[card->suit]);
+  printf("%s%s\n", FACES[card->face], SUITS[card->suit]);
 }
 
 
@@ -106,10 +109,16 @@ void print_deck(struct deck_of_cards* deck) {
 }
 
 
+struct playing_card deal_card(struct deck_of_cards* deck) {
+  return deck->cards[deck->next_card--];
+}
+
+
 void deal_hand(
     struct deck_of_cards *deck, struct playing_card hand[], int n_cards) {
   for (int i = 0; i < n_cards; i++) {
-    hand[i] = deck->cards[deck->next_card--];
+    //hand[i] = deck->cards[deck->next_card--];
+    hand[i] = deal_card(deck);
     if (deck->next_card < 0) {
       shuffle(deck);
     }
@@ -125,10 +134,10 @@ void print_hand(struct playing_card hand[], int n_cards) {
 }
 
 
-void examine_hand(int hand[][2], int n_cards) {
-  void check_for_n_of_a_kind(int hand[][2], int n_cards);
-  void check_for_flush(int hand[][2], int n_cards);
-  void check_for_straight(int hand[][2], int n_cards);  
+void examine_hand(struct playing_card hand[], int n_cards) {
+  void check_for_n_of_a_kind(struct playing_card hand[], int n_cards);
+  void check_for_flush(struct playing_card hand[], int n_cards);
+  void check_for_straight(struct playing_card hand[], int n_cards);  
   
   check_for_n_of_a_kind(hand, n_cards);
   check_for_flush(hand, n_cards);
@@ -137,50 +146,50 @@ void examine_hand(int hand[][2], int n_cards) {
 
 
 /* checks for 2, 3, or 4 of a kind */
-void check_for_n_of_a_kind(int hand[][2], int n_cards) {
+void check_for_n_of_a_kind(struct playing_card hand[], int n_cards) {
   int matches[MAX_FACE] = {0};
 
   for (int card = 0; card < n_cards; card++) {
-    matches[hand[card][0]]++;
+    matches[hand[card].face]++;
   }
   for (int face = 0; face < MAX_FACE; face++) {
     if (matches[face] > 1) {
-      printf("Hand has %d %ss\n", matches[face], faces[face]);
+      printf("Hand has %d %ss\n", matches[face], FACES[face]);
     }
   }
 }
 
 
-void check_for_flush(int hand[][2], int n_cards) {
+void check_for_flush(struct playing_card hand[], int n_cards) {
   int matches[N_SUITS] = {0};
-  const int min_for_flush = 5;
+  const int MIN_FOR_FLUSH = 5;
 
   for (int card = 0; card < n_cards; card++) {
-    matches[hand[card][1]]++;
+    matches[hand[card].suit]++;
   }
   for (int suit = 0; suit < N_SUITS; suit++) {
-    if (matches[suit] >= min_for_flush) {
-      printf("Hand has a flush of %s\n", suits[suit]);
+    if (matches[suit] >= MIN_FOR_FLUSH) {
+      printf("Hand has a flush of %s\n", SUITS[suit]);
     }
   }
 }
 
 
-void check_for_straight(int hand[][2], int n_cards) {
+void check_for_straight(struct playing_card hand[], int n_cards) {
   int matches[MAX_FACE + 1] = {0};
   int n_consecutive = 0;
-  const int min_for_straight = 5;
+  const int MIN_FOR_STRAIGHT = 5;
 
   for (int card = 0; card < n_cards; card++) {
-    matches[hand[card][0]]++;
-    if (hand[card][0] == 0) {    // if Ace
+    matches[hand[card].face]++;
+    if (hand[card].face == 0) {    // if Ace
       matches[MAX_FACE]++;  // count as high card (as well as low)
     }
   }
   for (int face = 0; face < MAX_FACE; face++) {
     if (matches[face] > 0) {
       n_consecutive++;
-      if (n_consecutive >= min_for_straight) {
+      if (n_consecutive >= MIN_FOR_STRAIGHT) {
         printf("Hand has a straight");
         return;
       }
