@@ -19,6 +19,18 @@ struct deck_of_cards {
 };
 
 
+enum outcomes{
+  HIGH_CARD, PAIR, TWO_PAIRS, THREE_OF_A_KIND, STRAIGHT, FLUSH, FULL_HOUSE,
+  FOUR_OF_A_KIND, STRAIGHT_FLUSH};
+
+
+struct outcome {
+  int best_hand;
+  int high_card;
+};
+  
+
+
 void shuffle(struct deck_of_cards* deck);
 struct playing_card digit_to_card(int n);
 void print_card(struct playing_card* card);
@@ -27,15 +39,15 @@ struct playing_card deal_card(struct deck_of_cards* deck);
 void deal_hand(
   struct deck_of_cards* deck, struct playing_card hand[], int n_cards);
 void print_hand(struct playing_card hand[], int n_cards);
-void examine_hand(struct playing_card hand[], int n_cards);
+struct outcome get_best_hand(struct playing_card hand[], int n_cards);
 
 
-const char *FACES[MAX_FACE] = {
-  "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-  //"Ace", "Deuce", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
-  //"Ten", "Jack", "Queen", "King"};
+const char *FACES[MAX_FACE + 1] = {
+  "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
 const char *SUITS[N_SUITS] = {"♥", "♦", "♣", "♠"};
-//{"Hearts", "Diamonds", "Clubs", "Spades"};
+const char *OUTCOMES[9] = {
+  "High Card", "Pair", "Two Pairs", "Three of a Kind", "Straight", "Flush",
+  "Full House", "Four of a Kind", "Straight Flush"};
 
 
 int main(void) {
@@ -51,11 +63,11 @@ int main(void) {
   deal_hand(&deck, hand1, n_cards);
   printf("Player 1's hand:\n");
   print_hand(hand1, n_cards);
-  examine_hand(hand1, n_cards);
+  get_best_hand(hand1, n_cards);
   deal_hand(&deck, hand2, n_cards);
   printf("\n\nPlayer 2's hand:\n");
   print_hand(hand2, n_cards);
-  examine_hand(hand2, n_cards);
+  get_best_hand(hand2, n_cards);
   return 0;
 }
 
@@ -134,29 +146,98 @@ void print_hand(struct playing_card hand[], int n_cards) {
 }
 
 
-void examine_hand(struct playing_card hand[], int n_cards) {
-  void check_for_n_of_a_kind(struct playing_card hand[], int n_cards);
+struct outcome get_best_hand(struct playing_card hand[], int n_cards) {
+  int get_high_card(struct playing_card hand[], int n_cards);
+  void print_best_hand(struct outcome best_hand);
+  struct outcome check_for_n_of_a_kind(struct playing_card hand[], int n_cards);
+  /*
   void check_for_flush(struct playing_card hand[], int n_cards);
-  void check_for_straight(struct playing_card hand[], int n_cards);  
+  void check_for_straight(struct playing_card hand[], int n_cards);  */
+  struct outcome best_hand = {HIGH_CARD, get_high_card(hand, n_cards)};
+  struct outcome n_of_a_kind;
+
+  n_of_a_kind = check_for_n_of_a_kind(hand, n_cards);
+  if (n_of_a_kind.best_hand > best_hand.best_hand) {
+    best_hand = n_of_a_kind;
+  }
   
-  check_for_n_of_a_kind(hand, n_cards);
+  print_best_hand(best_hand);
+  /*
   check_for_flush(hand, n_cards);
-  check_for_straight(hand, n_cards);
+  check_for_straight(hand, n_cards); */
+  return best_hand;
 }
 
 
-/* checks for 2, 3, or 4 of a kind */
-void check_for_n_of_a_kind(struct playing_card hand[], int n_cards) {
-  int matches[MAX_FACE] = {0};
-
+int get_high_card(struct playing_card hand[], int n_cards) {
+  int high_card = 1;
   for (int card = 0; card < n_cards; card++) {
-    matches[hand[card].face]++;
-  }
-  for (int face = 0; face < MAX_FACE; face++) {
-    if (matches[face] > 1) {
-      printf("Hand has %d %ss\n", matches[face], FACES[face]);
+    if (hand[card].face == 0) {
+      high_card = MAX_FACE;
+      break;
+    }
+    if (hand[card].face > high_card) {
+      high_card = hand[card].face;
     }
   }
+  return high_card;
+}
+
+
+void print_best_hand(struct outcome best_hand) {
+  printf(
+    "Best hand is: %s with %s high\n",
+    OUTCOMES[best_hand.best_hand],
+    FACES[best_hand.high_card]);
+}
+
+
+/* checks for 2, 3, or 4 of a kind, or full house */
+struct outcome check_for_n_of_a_kind(struct playing_card hand[], int n_cards) {
+  int best_hand = HIGH_CARD;
+  int high_card = 1;
+  int matches[MAX_FACE + 1] = {0};
+  int pairs = -1;
+  int triples = -1;
+  int quads = -1;
+  struct outcome result; 
+  
+  for (int card = 0; card < n_cards; card++) {
+    matches[hand[card].face]++;
+    if (hand[card].face == 0) {
+      matches[13]++;
+    }
+  }
+  for (int face = 0; face < MAX_FACE; face++) {
+    if (matches[face] == 2) {
+      if (best_hand == HIGH_CARD) {
+        best_hand = PAIR;
+        high_card = face;
+      } else if (best_hand == PAIR) {
+        best_hand = TWO_PAIRS;
+        high_card = face;
+        break;
+      } else if (best_hand == THREE_OF_A_KIND) {
+        best_hand = FULL_HOUSE;
+      }
+    } else if (matches[face] == 3) {
+      if (best_hand == HIGH_CARD) {
+        best_hand = THREE_OF_A_KIND;
+        high_card = face;
+      } else if (best_hand == PAIR) {
+        best_hand = FULL_HOUSE;
+        high_card = face;
+        break;
+      }
+    } else if (matches[face] == 4) {
+      best_hand = FOUR_OF_A_KIND;
+      high_card = face;
+      break;
+    }
+  }
+  result.best_hand = best_hand;
+  result.high_card = high_card;
+  return result;
 }
 
 
