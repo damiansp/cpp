@@ -40,6 +40,7 @@ void deal_hand(
   struct deck_of_cards* deck, struct playing_card hand[], int n_cards);
 void print_hand(struct playing_card hand[], int n_cards);
 struct outcome get_best_hand(struct playing_card hand[], int n_cards);
+int compare_hands(struct outcome outcome1, struct outcome outcome2);
 
 
 const char *FACES[MAX_FACE + 1] = {
@@ -55,19 +56,29 @@ int main(void) {
   const int n_cards = 5;
   struct playing_card hand1[n_cards];
   struct playing_card hand2[n_cards];
+  struct outcome p1_outcome;
+  struct outcome dealer_outcome;
+  int winner;
 
   srand(time(NULL)); // seed randgen
 
   shuffle(&deck);
   //print_deck(&deck);
   deal_hand(&deck, hand1, n_cards);
-  printf("Player 1's hand:\n");
+  printf("Your hand:\n");
   print_hand(hand1, n_cards);
-  get_best_hand(hand1, n_cards);
+  p1_outcome = get_best_hand(hand1, n_cards);
   deal_hand(&deck, hand2, n_cards);
-  printf("\n\nPlayer 2's hand:\n");
+  printf("\n\nDealer's hand:\n");
   print_hand(hand2, n_cards);
-  get_best_hand(hand2, n_cards);
+  dealer_outcome = get_best_hand(hand2, n_cards);
+  /* Logic to swap cards here */
+  winner = compare_hands(p1_outcome, dealer_outcome);
+  if (winner == 1) {
+    printf("You win!\n");
+  } else {
+    printf("Dealer wins.\n");
+  }
   return 0;
 }
 
@@ -150,21 +161,29 @@ struct outcome get_best_hand(struct playing_card hand[], int n_cards) {
   int get_high_card(struct playing_card hand[], int n_cards);
   void print_best_hand(struct outcome best_hand);
   struct outcome check_for_n_of_a_kind(struct playing_card hand[], int n_cards);
-  /*
-  void check_for_flush(struct playing_card hand[], int n_cards);
-  void check_for_straight(struct playing_card hand[], int n_cards);  */
+  struct outcome check_for_flush(struct playing_card hand[], int n_cards);
+  struct outcome check_for_straight(struct playing_card hand[], int n_cards);
   struct outcome best_hand = {HIGH_CARD, get_high_card(hand, n_cards)};
-  struct outcome n_of_a_kind;
+  struct outcome hand_status;
+  short is_flush = 0;
 
-  n_of_a_kind = check_for_n_of_a_kind(hand, n_cards);
-  if (n_of_a_kind.best_hand > best_hand.best_hand) {
-    best_hand = n_of_a_kind;
+  hand_status = check_for_n_of_a_kind(hand, n_cards);
+  if (hand_status.best_hand > best_hand.best_hand) {
+    best_hand = hand_status;
   }
-  
+  hand_status = check_for_flush(hand, n_cards);
+  if (hand_status.best_hand > best_hand.best_hand) {
+    best_hand = hand_status;
+    is_flush = 1;
+  }
+  hand_status = check_for_straight(hand, n_cards);
+  if (hand_status.best_hand > best_hand.best_hand) {
+    best_hand = hand_status;
+  }
+  if (best_hand.best_hand == STRAIGHT && is_flush) {
+    best_hand.best_hand = STRAIGHT_FLUSH;
+  }
   print_best_hand(best_hand);
-  /*
-  check_for_flush(hand, n_cards);
-  check_for_straight(hand, n_cards); */
   return best_hand;
 }
 
@@ -197,15 +216,13 @@ struct outcome check_for_n_of_a_kind(struct playing_card hand[], int n_cards) {
   int best_hand = HIGH_CARD;
   int high_card = 1;
   int matches[MAX_FACE + 1] = {0};
-  int pairs = -1;
-  int triples = -1;
-  int quads = -1;
   struct outcome result; 
   
   for (int card = 0; card < n_cards; card++) {
-    matches[hand[card].face]++;
     if (hand[card].face == 0) {
       matches[13]++;
+    } else {
+      matches[hand[card].face]++;
     }
   }
   for (int face = 0; face < MAX_FACE; face++) {
@@ -241,41 +258,80 @@ struct outcome check_for_n_of_a_kind(struct playing_card hand[], int n_cards) {
 }
 
 
-void check_for_flush(struct playing_card hand[], int n_cards) {
+struct outcome check_for_flush(struct playing_card hand[], int n_cards) {
+  int best_hand = HIGH_CARD;
+  int high_card = 1;
   int matches[N_SUITS] = {0};
   const int MIN_FOR_FLUSH = 5;
-
-  for (int card = 0; card < n_cards; card++) {
+  struct outcome result;
+  int card;  // iterator
+  
+  for (card = 0; card < n_cards; card++) {
     matches[hand[card].suit]++;
   }
   for (int suit = 0; suit < N_SUITS; suit++) {
     if (matches[suit] >= MIN_FOR_FLUSH) {
-      printf("Hand has a flush of %s\n", SUITS[suit]);
+      best_hand = FLUSH;
+      for (card = 0; card < n_cards; card++) {
+        if (hand[card].face == 0) { // ace
+          high_card = 13;
+        } else if (hand[card].face > high_card) {
+          high_card = hand[card].face;
+        }
+      }
     }
   }
+  result.best_hand = best_hand;
+  result.high_card = high_card;
+  return result;
 }
 
 
-void check_for_straight(struct playing_card hand[], int n_cards) {
+struct outcome check_for_straight(struct playing_card hand[], int n_cards) {
+  int best_hand = HIGH_CARD;
+  int high_card = 1;
   int matches[MAX_FACE + 1] = {0};
   int n_consecutive = 0;
   const int MIN_FOR_STRAIGHT = 5;
+  int card;
+  struct outcome result;
 
-  for (int card = 0; card < n_cards; card++) {
+  for (card = 0; card < n_cards; card++) {
     matches[hand[card].face]++;
-    if (hand[card].face == 0) {    // if Ace
-      matches[MAX_FACE]++;  // count as high card (as well as low)
+    if (hand[card].face == 0) {  // if Ace
+      matches[MAX_FACE]++;       // count as high card (as well as low)
     }
   }
   for (int face = 0; face < MAX_FACE; face++) {
     if (matches[face] > 0) {
       n_consecutive++;
       if (n_consecutive >= MIN_FOR_STRAIGHT) {
-        printf("Hand has a straight");
-        return;
+        best_hand = STRAIGHT;
+        for (card = MAX_FACE; card > 1; card--) {
+          if (matches[card] != 0) {
+            high_card = matches[card];
+            break;
+          }
+        }
       }
     } else {
       n_consecutive = 0;
     }
   }
+  result.best_hand = best_hand;
+  result.high_card = high_card;
+  return result;
+}
+
+
+int compare_hands(struct outcome outcome1, struct outcome outcome2) {
+  if (outcome1.best_hand > outcome2.best_hand) {
+    return 1;
+  }
+  if (outcome2.best_hand > outcome1.best_hand) {
+    return 2;
+  }
+  // This program does not handle ties beyond the high card in the hand. Ties
+  // counted as player 2 (dealer) winning.
+  return outcome1.high_card > outcome2.high_card ? 1 : 2;
 }
