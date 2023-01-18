@@ -38,8 +38,9 @@ void print_deck(struct deck_of_cards* deck);
 struct playing_card deal_card(struct deck_of_cards* deck);
 void deal_hand(
   struct deck_of_cards* deck, struct playing_card hand[], int n_cards);
-void print_hand(struct playing_card hand[], int n_cards);
+void print_hand(struct playing_card hand[], int n_cards, int hide_n);
 struct outcome get_best_hand(struct playing_card hand[], int n_cards);
+void swap_cards(struct playing_card hand[], struct deck_of_cards* deck);
 int compare_hands(struct outcome outcome1, struct outcome outcome2);
 
 
@@ -63,16 +64,24 @@ int main(void) {
   srand(time(NULL)); // seed randgen
 
   shuffle(&deck);
-  //print_deck(&deck);
   deal_hand(&deck, hand1, n_cards);
   printf("Your hand:\n");
-  print_hand(hand1, n_cards);
+  print_hand(hand1, n_cards, 0);
   p1_outcome = get_best_hand(hand1, n_cards);
+
   deal_hand(&deck, hand2, n_cards);
   printf("\n\nDealer's hand:\n");
-  print_hand(hand2, n_cards);
+  print_hand(hand2, n_cards, 5);
+  
+  swap_cards(hand1, &deck);
+  printf("\n\nYour hand after replacing cards:\n");
+  print_hand(hand1, n_cards, 0);
+  p1_outcome = get_best_hand(hand1, n_cards);
+
+  printf("\n\nDealer's hand:\n");
+  print_hand(hand2, n_cards, 0);
   dealer_outcome = get_best_hand(hand2, n_cards);
-  /* Logic to swap cards here */
+
   winner = compare_hands(p1_outcome, dealer_outcome);
   if (winner == 1) {
     printf("You win!\n");
@@ -140,7 +149,6 @@ struct playing_card deal_card(struct deck_of_cards* deck) {
 void deal_hand(
     struct deck_of_cards *deck, struct playing_card hand[], int n_cards) {
   for (int i = 0; i < n_cards; i++) {
-    //hand[i] = deck->cards[deck->next_card--];
     hand[i] = deal_card(deck);
     if (deck->next_card < 0) {
       shuffle(deck);
@@ -149,9 +157,14 @@ void deal_hand(
 }
 
 
-void print_hand(struct playing_card hand[], int n_cards) {
+void print_hand(struct playing_card hand[], int n_cards, int hide_n) {
   for (int card = 0; card < n_cards; card++) {
-    print_card(&hand[card]);
+    printf("%d:  ", card);
+    if (card < hide_n) {
+      printf("??\n");
+    } else {
+      print_card(&hand[card]);
+    }
   }
   printf("\n");
 }
@@ -219,13 +232,13 @@ struct outcome check_for_n_of_a_kind(struct playing_card hand[], int n_cards) {
   struct outcome result; 
   
   for (int card = 0; card < n_cards; card++) {
-    if (hand[card].face == 0) {
-      matches[13]++;
+    if (hand[card].face == 0) {  // Ace
+      matches[MAX_FACE]++;
     } else {
       matches[hand[card].face]++;
     }
   }
-  for (int face = 0; face < MAX_FACE; face++) {
+  for (int face = 1; face <= MAX_FACE; face++) {
     if (matches[face] == 2) {
       if (best_hand == HIGH_CARD) {
         best_hand = PAIR;
@@ -321,6 +334,19 @@ struct outcome check_for_straight(struct playing_card hand[], int n_cards) {
   result.best_hand = best_hand;
   result.high_card = high_card;
   return result;
+}
+
+
+void swap_cards(struct playing_card hand[], struct deck_of_cards* deck) {
+  char swaps[5];
+  int hand_idx;
+
+  printf("Indices of cards to swap (e.g. '034'): ");
+  scanf(" %s", swaps);
+  for (int i = 0; swaps[i] != '\0'; i++) {
+    hand_idx = atoi(&swaps[i]);
+    hand[hand_idx] = deal_card(deck);
+  }
 }
 
 
