@@ -8,7 +8,7 @@ int main() {
     puts("The file could not be opened.");
   } else {
     puts("Enter account, name, and balance (space-delineated)");
-    puts("(EOF to end input");
+    puts("(EOF [CRTL-d] to end input)");
     printf("> ");
 
     unsigned int acct;
