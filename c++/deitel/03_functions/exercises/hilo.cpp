@@ -22,13 +22,17 @@ int main() {
 
   cout << "Guess a number between 1 and " << MAX << ": ";
   cin >> guess;
-  while (guess != answer) {
+  for (int i = MAX; i >= 1; i /= 2) {
     compare(guess, answer);
     n_tries++;
     cout << " Try again: ";
     cin >> guess;
   }
-  cout << "You got it in " << n_tries << " tries!" << endl;
+  if (guess == answer) {
+    cout << "Congratulations, you guessed in the allowed range!" << endl;
+  } else {
+    cout << "Womp. Womp. You should have been able to guess by now." << endl;
+  }
   return 0;
 }
 
