@@ -22,7 +22,7 @@ void update_sales(int id, double sales[STAFF + 1][N_PRODUCTS + 1]) {
 
 
 void get_product_totals(double sales[STAFF + 1][N_PRODUCTS + 1]) {
-  for (int item_no = 0; item_no < N_PRODUCTS; item_no++) {
+  for (int item_no = 0; item_no <= N_PRODUCTS; item_no++) {
     double item_total = 0;
     for (int salesperson = 0; salesperson < STAFF; salesperson++) {
       item_total += sales[salesperson][item_no];
@@ -46,7 +46,8 @@ void print_header() {
 void print_totals(double sales[STAFF + 1][N_PRODUCTS + 1]) {
   cout << setw(11) << "Total" << " ";
   for (int item_no = 0; item_no <= N_PRODUCTS; item_no++) {
-    cout << setw(7) << setprecision(2) << sales[STAFF][item_no] << " ";
+    cout << setw(7) << setiosflags(ios::fixed | ios::showpoint)
+         << setprecision(2) << sales[STAFF][item_no] << " ";
   }
 }
 
@@ -56,11 +57,13 @@ void print_sales(double sales[STAFF + 1][N_PRODUCTS + 1]) {
   for (int id = 0; id < STAFF; id++) {
     cout << setw(11) << id << " ";
     for (int item_no = 0; item_no <= N_PRODUCTS; item_no++) {
-      cout << setw(7) << setprecision(2) << sales[id][item_no] << " ";
+      cout << setw(7) << setiosflags(ios::fixed | ios::showpoint)
+           << setprecision(2) << sales[id][item_no] << " ";
     }
     cout << endl;
   }
   print_totals(sales);
+  cout << endl;
 }
 
 
