@@ -4,7 +4,7 @@
 
 class Time {
  public:
-  Time();  // constructor
+  Time(int=0, int=0, int=0);  // constructor
   void set_time(int, int, int);  // h, m, s
   void print();
   void print_military();

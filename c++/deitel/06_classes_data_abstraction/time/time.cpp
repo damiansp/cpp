@@ -4,7 +4,7 @@
 using namespace std;
 
 
-Time::Time() { hour = minute = second = 0; }
+Time::Time(int hr, int min, int s) { set_time(hr, min, s); }
 
 
 void Time::set_time(int hr, int min, int s) {
