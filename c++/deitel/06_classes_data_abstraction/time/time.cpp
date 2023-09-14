@@ -14,6 +14,24 @@ void Time::set_time(int hr, int min, int s) {
 }
 
 
+void Time::set_hour(int hr) { hour = (hr >= 0 && hr < 24) ? hr : 0; }
+
+
+void Time::set_minute(int min) { minute = (min >= 0 && min < 60) ? min : 0; }
+
+
+void Time::set_second(int s) { second = (s >= 0 && s < 60) ? s : 0; }
+
+
+int Time::get_hour() { return hour; }
+
+
+int Time::get_minute() { return minute; }
+
+
+int Time::get_second() { return second; }
+
+
 void Time::print() {
   cout << ((hour == 0 || hour == 12) ? 12 : hour % 12) << ":"
        << (minute < 10 ? "0" : "") << minute << ":"
