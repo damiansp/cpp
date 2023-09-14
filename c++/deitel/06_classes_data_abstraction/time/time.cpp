@@ -1,7 +1,7 @@
 #include <iostream>
+using namespace std;
 
 #include "time.h"
-using namespace std;
 
 
 Time::Time(int hr, int min, int s) { set_time(hr, min, s); }
