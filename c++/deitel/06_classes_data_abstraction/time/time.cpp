@@ -16,6 +16,13 @@ void Time::set_time(int hr, int min, int s) {
 
 void Time::set_hour(int hr) { hour = (hr >= 0 && hr < 24) ? hr : 0; }
 
+/* Bad practice returning ref to private member:
+int& Time::bad_set_hour(int h) {
+  hour = (hr >= 0 && hr < 24) ? hr : 0;
+  return hour;
+}
+*/
+
 
 void Time::set_minute(int min) { minute = (min >= 0 && min < 60) ? min : 0; }
 

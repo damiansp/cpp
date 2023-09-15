@@ -14,6 +14,7 @@ class Time {
   int get_second();
   void print();
   void print_military();
+  //int& bad_set_hour(int);  // dangerous to return a ref to private member
  private:
   int hour;
   int minute;
