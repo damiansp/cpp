@@ -6,14 +6,16 @@ using namespace std;
 
 int main() {
   Rectangle unit_square = Rectangle();
-  Rectangle r1 = Rectangle(1.2, 3.4);
+  Rectangle r1 = Rectangle(0, 0, 1.2, 3.4);
 
 
   unit_square.print();
   cout << "Area: " << unit_square.get_area() << endl;
-  cout << "Height: " << unit_square.get_height() << "; Width: " << unit_square.get_width();
+  cout << "Height: " << unit_square.get_height() << "; Width: "
+       << unit_square.get_width();
   cout << "\nPerimeter: " << unit_square.get_perimeter() << endl;
   cout << "Area: " << unit_square.get_area() << endl;
+  cout << "Square: " << unit_square.is_square() << endl;
   cout << endl;
 
   r1.print();
@@ -21,10 +23,19 @@ int main() {
   cout << "Height: " << r1.get_height() << "; Width: " << r1.get_width();
   cout << "\nPerimeter: " << r1.get_perimeter() << endl;
   cout << "Area: " << r1.get_area() << endl;
+  cout << "Square: " << r1.is_square() << endl;
   cout << endl;
 
   r1.set_height(5.6);
   r1.set_width(23.45);
+  r1.print();
+  cout << "Area: " << r1.get_area() << endl;
+  cout << "Height: " << r1.get_height() << "; Width: " << r1.get_width();
+  cout << "\nPerimeter: " << r1.get_perimeter() << endl;
+  cout << "Area: " << r1.get_area() << endl;
+  cout << endl;
+
+  r1.set_ll(1., 1.);
   r1.print();
   cout << "Area: " << r1.get_area() << endl;
   cout << "Height: " << r1.get_height() << "; Width: " << r1.get_width();
