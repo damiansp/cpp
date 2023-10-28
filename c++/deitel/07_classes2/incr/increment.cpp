@@ -16,6 +16,7 @@ private:
 
 Increment::Increment(int c, int i): increment(i) /* init const member */ {
   count = c;
+  //incrememt = i  // if here instead of above: ERR: cannot modify a const obj
 }
 
 
