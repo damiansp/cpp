@@ -24,7 +24,7 @@ Employee::Employee(
   len = (len < 25 ? len : 24);
   strncpy(surname, sname, len);
   surname[len] = '\0';
-  count << "Employee object constructor: " << name
+  cout << "Employee object constructor: " << name;
 }
 
 
@@ -34,4 +34,9 @@ void Employee::print() const {
   cout << "\nBirth Date: ";
   birth_date.print();
   cout << endl;
+}
+
+
+Employee::~Employee() {
+  cout << "Employee destructor: " << surname << ", " << name << endl;
 }

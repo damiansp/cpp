@@ -14,7 +14,7 @@ Date::Date(int yr, int mo, int dy) {
   day = check_day(dy);
   cout << "Date object constructor for date ";
   print();
-  count << endl;
+  cout << endl;
 }
 
 
@@ -29,9 +29,9 @@ Date::~Date() {
 
 
 int Date::check_day(int test_day) {
-  static const int days_in_months = {
+  static const int days_in_months[13] = {
     0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-  if (test_day > 0 && test_dya <= days_in_monts[month]) { return test_day; }
+  if (test_day > 0 && test_day <= days_in_months[month]) { return test_day; }
   // leap year check
   if (month == 2
       && test_day == 29
