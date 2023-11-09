@@ -4,23 +4,33 @@ using namespace std;
 #include "time.h"
 
 
-Time::Time(int hr, int min, int s) { set_time(hr, min, s); }
+Time::Time(int h, int m, int s) { set_time(h, m, s); }
 
 
-void Time::set_time(int hr, int min, int s) {
+Time &Time::set_time(int h, int m, int s) {
   set_hour(h);
-  set_minute(min);
+  set_minute(m);
   set_second(s);
+  return *this;
 }
 
 
-void Time::set_hour(int hr) { hour = (hr >= 0 && hr < 24) ? hr : 0; }
+Time &Time::set_hour(int h) {
+  hour = (h >= 0 && h < 24) ? h : 0;
+  return *this;
+}
 
 
-void Time::set_minute(int min) { minute = (min >= 0 && min < 60) ? min : 0; }
+Time &Time::set_minute(int m) {
+  minute = (m >= 0 && m < 60) ? m : 0;
+  return *this;
+}
 
 
-void Time::set_second(int s) { second = (s >= 0 && s < 60) ? s : 0; }
+Time &Time::set_second(int s) {
+  second = (s >= 0 && s < 60) ? s : 0;
+  return *this;
+}
 
 
 int Time::get_hour() { return hour; }

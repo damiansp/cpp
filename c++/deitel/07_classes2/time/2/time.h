@@ -5,10 +5,10 @@
 class Time {
  public:
   Time(int=0, int=0, int=0);  // constructor
-  void &set_time(int, int, int);  // h, m, s
-  void &set_hour(int);
-  void &set_minute(int);
-  void &set_second(int);
+  Time &set_time(int, int, int);  // h, m, s
+  Time &set_hour(int);
+  Time &set_minute(int);
+  Time &set_second(int);
   int get_hour();
   int get_minute();
   int get_second();
