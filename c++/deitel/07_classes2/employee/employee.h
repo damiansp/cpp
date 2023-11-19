@@ -4,7 +4,7 @@
 
 class Employee {
  public:
-  Employee(const char*, onst char*);
+  Employee(const char*, const char*);
   ~Employee();
   const char* get_name() const;
   const char* get_surname() const;
