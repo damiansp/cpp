@@ -41,3 +41,35 @@ void Scheduler::delay_time(const Floor& floor) {
   cout << "(scheduler delays next person for floor " << floor_number
        << " until time " << arrival_time << ')' << endl;
 }
+
+
+void Scheduler::process_time(int time) {
+  current_clock_time = time;
+  handle_arrivals(floor1_ref, current_clock_time);
+  handle_arrivals(floor2_ref, current_clock_time);
+}
+
+
+void Scheduler::create_new_person(Floor& floor) {
+  int destination_floor = floor.get_number() == Floor::FLOOR1
+    ? Floor::FLOOR2
+    : Floor::FLOOR1;
+  Person* new_person_ptr = new Person(destination_floor);
+
+  cout << "scheduler creates person " << new_person_ptr->get_id() << endl;
+  new_person_ptr->step_onto_floor(floor);
+  schedule_time(floor);
+}
+
+
+void Scheduler::handle_arrivals(Floor& floor, int time) {
+  int floor_number = floor.get_number();
+  int arrival_time = (floor_number == Floor::FLOOR1)
+    ? floor1_arrival_time
+    : floor2_arrival_time;
+
+  if (arrival_time == time) {
+    if (floor.is_occupied) { delay_time(floor); }
+    else { create_new_person(floor); }
+  }
+}
