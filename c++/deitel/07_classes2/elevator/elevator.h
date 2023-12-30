@@ -19,8 +19,8 @@ class Elevator {
   void prepare_to_leave(bool);
   void process_time(int);
   void passenger_enters(Person* const);
-  void passenget_exits();
-  ElevatorButton elevator_button;
+  void passenger_exits();
+  ElevatorButton button;
 
  private:
   void process_possible_arrival();

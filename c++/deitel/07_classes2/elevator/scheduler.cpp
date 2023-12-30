@@ -17,7 +17,7 @@ Scheduler::Scheduler(Floor& first_floor, Floor& second_floor):
 }
 
 
-Scheduler::~Scheduler() { cout << "Scheduler destroyed" << end; }
+Scheduler::~Scheduler() { cout << "Scheduler destroyed" << endl; }
 
 
 void Scheduler::schedule_time(const Floor& floor) {
@@ -27,7 +27,7 @@ void Scheduler::schedule_time(const Floor& floor) {
   floor_number == Floor::FLOOR1
     ? floor1_arrival_time = arrival_time
     : floor2_arrival_time = arrival_time;
-  cout << "(scheduler schedules next perosn for floor " << floor_number
+  cout << "(scheduler schedules next person for floor " << floor_number
        << " at time " << arrival_time << ')' << endl;
 }
 
@@ -56,7 +56,7 @@ void Scheduler::create_new_person(Floor& floor) {
     : Floor::FLOOR1;
   Person* new_person_ptr = new Person(destination_floor);
 
-  cout << "scheduler creates person " << new_person_ptr->get_id() << endl;
+  cout << "scheduler creates person " << new_person_ptr->get_ID() << endl;
   new_person_ptr->step_onto_floor(floor);
   schedule_time(floor);
 }
@@ -69,7 +69,7 @@ void Scheduler::handle_arrivals(Floor& floor, int time) {
     : floor2_arrival_time;
 
   if (arrival_time == time) {
-    if (floor.is_occupied) { delay_time(floor); }
+    if (floor.is_occupied()) { delay_time(floor); }
     else { create_new_person(floor); }
   }
 }

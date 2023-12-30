@@ -22,7 +22,7 @@ class Floor {
   void person_boarding_elevator();
   static const int FLOOR1;
   static const int FLOOR2;
-  FloorButton floor_button;
+  FloorButton button;
 
  private:
   const int floor_number;

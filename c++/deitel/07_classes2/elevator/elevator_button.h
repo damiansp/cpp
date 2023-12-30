@@ -15,7 +15,7 @@ class ElevatorButton {
  private:
   bool is_pressed;
   Elevator& elevator_ref;
-}
+};
 
 
 #endif

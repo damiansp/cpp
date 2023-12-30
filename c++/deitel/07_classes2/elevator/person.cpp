@@ -14,12 +14,12 @@ Person::Person(const int dest_floor):
 
 
 Person::~Person() {
-  cout << "person " << ID < " exits simulation on floor " << destination_floor
+  cout << "person " << ID << " exits simulation on floor " << destination_floor
        << " (prson destructor invoked)" << endl;
 }
 
 
-int Person::get_ID const { return ID; }
+int Person::get_ID() const { return ID; }
 
 
 void Person::step_onto_floor(Floor& floor) {
@@ -28,7 +28,15 @@ void Person::step_onto_floor(Floor& floor) {
   floor.person_arrives(this);
   cout << "person " << ID << " pushes floor button on floor "
        << floor.get_number() << endl;
-  elevator.button.press();
+  floor.button.press();
+}
+
+
+void Person::enter_elevator(Elevator& elev, Floor& floor) {
+  floor.person_boarding_elevator();
+  elev.passenger_enters(this);
+  cout << "person " << ID << " presses elevator button" << endl;
+  elev.button.press();
 }
 
 

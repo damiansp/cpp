@@ -11,7 +11,7 @@ const int Floor::FLOOR2 = 2;
 
 
 Floor::Floor(int n, Elevator& elev):
-    floor_button(n, elev),
+    button(n, elev),
     floor_number(n),
     elevator_ref(elev),
     occupant_ptr(0),
@@ -36,13 +36,13 @@ void Floor::person_arrives(Person* const person_ptr) {
 
 Person* Floor::elevator_arrived() {
   cout << "floor " << floor_number << " resets its button" << endl;
-  floor_button.reset();
+  button.reset();
   light.turn_on();
   return occupant_ptr;
 }
 
 
-void Floor::elevator_leaving() { light.turn_off; }
+void Floor::elevator_leaving() { light.turn_off(); }
 
 
 void Floor::person_boarding_elevator() { occupant_ptr = 0; }

@@ -16,7 +16,7 @@ Building::Building():
 Building::~Building() { cout << "building destroyed" << endl; }
 
 
-void Buildint::run_simulation(int total_time) {
+void Building::run_simulation(int total_time) {
   int current_time = 0;
 
   while (current_time < total_time) {

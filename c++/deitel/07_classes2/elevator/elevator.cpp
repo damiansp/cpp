@@ -12,7 +12,7 @@ const int Elevator::DOWN = 1;
 
 
 Elevator::Elevator(Floor& first_floor, Floor& second_floor):
-    elevator_button(*this),
+    button(*this),
     current_building_clock_time(0),
     is_moving(false),
     direction(UP),
@@ -31,7 +31,7 @@ Elevator::~Elevator() { cout << "elevator destroyed" << endl; }
 
 
 void Elevator::process_time(int time) {
-  current_building_cloc_time = time;
+  current_building_clock_time = time;
   if (is_moving) { process_possible_arrival(); }
   else { process_possible_departure(); }
   if (!is_moving) {
@@ -51,7 +51,7 @@ void Elevator::process_possible_arrival() {
     return;
   }
   // else elevator is moving
-  cout << "elevator moving " (direction == UP ? "up" : "down") << endl;
+  cout << "elevator moving " << (direction == UP ? "up" : "down") << endl;
 }
 
 
@@ -74,19 +74,21 @@ void Elevator::process_possible_departure() {
 void Elevator::arrive_at_floor(Floor& arrival_floor) {
   is_moving = false;
   cout << "elevator resets its button" << endl;
-  evelevator_buttton.reset();
+  button.reset();
   bell.ring();
   // notify floor that elevator has arrived
   Person* floor_person_ptr = arrival_floor.elevator_arrived();
   door.open(passenger_ptr, floor_person_ptr, arrival_floor, *this);
   bool current_floor_needs_service =
-    current_floor == FLOOR1 ? floor1_needs_service : floor2_needs_service;
+    current_floor == Floor::FLOOR1
+    ? floor1_needs_service : floor2_needs_service;
   bool other_floor_needs_service =
-    current_floor == FLOOR1 ? floor2_needs_service : floor1_needs_service;
+    current_floor == Floor::FLOOR1
+    ? floor2_needs_service : floor1_needs_service;
   if (!current_floor_needs_service) {
     prepare_to_leave(other_floor_needs_service);
   } else {
-    current_floor == Floor:FLOOR1
+    current_floor == Floor::FLOOR1
       ? floor1_needs_service = false : floor2_needs_service = false;
   }
 }
@@ -94,7 +96,7 @@ void Elevator::arrive_at_floor(Floor& arrival_floor) {
 
 void Elevator::summon(int floor) {
   floor == Floor::FLOOR1
-    ? floor1_needs_servive = true : floor2_needs_service = true;
+    ? floor1_needs_service = true : floor2_needs_service = true;
 }
 
 
@@ -110,7 +112,7 @@ void Elevator::passenger_exits() { passenger_ptr = 0; }
 
 void Elevator::prepare_to_leave(bool is_leaving) {
   Floor& this_floor = current_floor == Floor::FLOOR1 ? floor1_ref : floor2_ref;
-  this_floor.elevator_is_leaving();
+  this_floor.elevator_leaving();
   door.close(this_floor);
   if (is_leaving) { move(); }
 }

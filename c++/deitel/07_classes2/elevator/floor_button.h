@@ -16,7 +16,7 @@ class FloorButton {
   const int floor_number;
   bool is_pressed;
   Elevator& elevator_ref;
-}
+};
 
 
 #endif

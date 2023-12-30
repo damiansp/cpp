@@ -6,7 +6,7 @@ class Bell {
  public:
   Bell();
   ~Bell();
-  void ring_bell() const;
+  void ring() const;
 };
 
 

@@ -17,11 +17,11 @@ ElevatorButton::~ElevatorButton() {
 }
 
 
-ElevatorButton::press() {
+void ElevatorButton::press() {
   is_pressed = true;
   cout << "elevator button tells elevator to prepare to leave" << endl;
   elevator_ref.prepare_to_leave(true);
 }
 
 
-ElevatorButton::reset() { is_pressed = false; }
+void ElevatorButton::reset() { is_pressed = false; }
