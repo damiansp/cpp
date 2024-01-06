@@ -79,8 +79,9 @@ Date::Date(string mon_str, int date, int year) {
     "January", "Februrary", "March", "April", "May", "June", "July", "August",
     "September", "October", "November", "December"];
   for (int i = 0; i < 12; i++) {
-    if (mon_str == months[i]) {
+    if (mon_str.compare(months[i]) == 0) {
       month = i + 1;
+      break;
     }
   }
   this.date = date;
