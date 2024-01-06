@@ -1,8 +1,11 @@
+using namespace std;
+
+
 class Date {
  public:
   //Date(int, int);        // day of year, year 
-  Date(int, int, int);   // date, mo, yr
-  Date(char*, int, int); // mo name, date, yr
+  //Date(int, int, int);   // date, mo, yr
+  //Date(char*, int, int); // mo name, date, yr
   void print() const;              // YYYY-MM-DD
   void print_day_of_year() const;  // DDD YYYY
   void print_american() const;     // MM/DD/YY
@@ -60,4 +63,28 @@ Date::Date(int day_of_year, int year) {
   } else { // dec
     month = 12;
     date = day_of_year - 31 - 28 - 31 - 30 - 31 - 30 - 31 - 31 - 30 - 31 - 30;
+  }
 }
+
+
+Date::Date(int date, int month, int year) {
+  this.year = year;
+  this.month = month;
+  this.date = date;
+}
+  
+
+Date::Date(string mon_str, int date, int year) {
+  string* months[] = [
+    "January", "Februrary", "March", "April", "May", "June", "July", "August",
+    "September", "October", "November", "December"];
+  for (int i = 0; i < 12; i++) {
+    if (mon_str == months[i]) {
+      month = i + 1;
+    }
+  }
+  this.date = date;
+  this.year = year;
+}
+
+
