@@ -89,3 +89,4 @@ Date::Date(string mon_str, int date, int year) {
 }
 
 
+Date::print() const { cout << year << "-" << month << "-" << date; }
