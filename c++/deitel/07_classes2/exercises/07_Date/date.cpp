@@ -6,9 +6,9 @@ class Date {
   //Date(int, int);        // day of year, year 
   //Date(int, int, int);   // date, mo, yr
   //Date(char*, int, int); // mo name, date, yr
-  ////void print() const;              // YYYY-MM-DD
-  void print_day_of_year() const;  // DDD YYYY
-  void print_american() const;     // MM/DD/YY
+  //void print() const;              // YYYY-MM-DD
+  //void print_day_of_year() const;  // DDD YYYY
+  //void print_american() const;     // MM/DD/YY
   void print_long() const;         // June 03, 2020
 
  private:
@@ -92,7 +92,7 @@ Date::Date(string mon_str, int date, int year) {
 void Date::print() const { cout << year << "-" << month << "-" << date; }
 
 
-void Date::print_day_of_year() const{
+void Date::print_day_of_year() const {
   // DDD YYYY
   int n_days = 0;
   int days_per_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -103,4 +103,12 @@ void Date::print_day_of_year() const{
   n_days += date;
   cout << setw(3) << setfill('0') << n_days << " " << setw(4) << setfill(' ')
        << year;
+}
+
+
+void Date::print_american() const {
+  // MM/DD/YY
+  int year_2_digit = year % 100;
+  cout << setw(2) << setfill('0') << month << "/" << date << "/"
+       << year_2_digit;
 }
