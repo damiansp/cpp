@@ -9,13 +9,18 @@ class Date {
   //void print() const;              // YYYY-MM-DD
   //void print_day_of_year() const;  // DDD YYYY
   //void print_american() const;     // MM/DD/YY
-  void print_long() const;         // June 03, 2020
+  //void print_long() const;         // June 03, 2020
 
  private:
   int year;
   int month;
   int date;
 };
+
+
+const string* MONTHS[] = [
+    "January", "Februrary", "March", "April", "May", "June", "July", "August",
+    "September", "October", "November", "December"];
 
 
 // Since this is just an exercise to familiarize myself with syntax, going to
@@ -75,11 +80,8 @@ Date::Date(int date, int month, int year) {
   
 
 Date::Date(string mon_str, int date, int year) {
-  string* months[] = [
-    "January", "Februrary", "March", "April", "May", "June", "July", "August",
-    "September", "October", "November", "December"];
   for (int i = 0; i < 12; i++) {
-    if (mon_str.compare(months[i]) == 0) {
+    if (mon_str.compare(MONTHS[i]) == 0) {
       month = i + 1;
       break;
     }
@@ -110,5 +112,11 @@ void Date::print_american() const {
   // MM/DD/YY
   int year_2_digit = year % 100;
   cout << setw(2) << setfill('0') << month << "/" << date << "/"
-       << year_2_digit;
+       << year_2_digit << setfill(' ');
+}
+
+
+void Date::print_long() const {
+  string month_str = MONTHS[month - 1];
+  cout << month_str << " " << setw(2) << setfill('0') << date << ", " << year;
 }
