@@ -1,33 +1,21 @@
+#include <iomanip>
+#include <iostream>
+#include <string>
 using namespace std;
 
-
-class Date {
- public:
-  //Date(int, int);        // day of year, year 
-  //Date(int, int, int);   // date, mo, yr
-  //Date(char*, int, int); // mo name, date, yr
-  //void print() const;              // YYYY-MM-DD
-  //void print_day_of_year() const;  // DDD YYYY
-  //void print_american() const;     // MM/DD/YY
-  //void print_long() const;         // June 03, 2020
-
- private:
-  int year;
-  int month;
-  int date;
-};
+#include "date.h"
 
 
-const string* MONTHS[] = [
+const char* MONTHS[] = {
     "January", "Februrary", "March", "April", "May", "June", "July", "August",
-    "September", "October", "November", "December"];
+    "September", "October", "November", "December"};
 
 
 // Since this is just an exercise to familiarize myself with syntax, going to
 // simplify and ignore leap years
 Date::Date(int day_of_year, int year) {
   // Add validation here
-  this.year = year;
+  this->year = year;
   if (day_of_year <= 31) { // jan
     month = 1;
     date = day_of_year;
@@ -73,9 +61,9 @@ Date::Date(int day_of_year, int year) {
 
 
 Date::Date(int date, int month, int year) {
-  this.year = year;
-  this.month = month;
-  this.date = date;
+  this->year = year;
+  this->month = month;
+  this->date = date;
 }
   
 
@@ -86,8 +74,8 @@ Date::Date(string mon_str, int date, int year) {
       break;
     }
   }
-  this.date = date;
-  this.year = year;
+  this->date = date;
+  this->year = year;
 }
 
 
