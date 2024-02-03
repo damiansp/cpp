@@ -79,7 +79,10 @@ Date::Date(string mon_str, int date, int year) {
 }
 
 
-void Date::print() const { cout << year << "-" << month << "-" << date; }
+void Date::print() const {
+  cout << year << "-" << setw(2) << setfill('0') << month << "-" << setw(2)
+       << date << setfill(' ');
+}
 
 
 void Date::print_day_of_year() const {
