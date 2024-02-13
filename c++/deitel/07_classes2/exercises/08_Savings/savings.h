@@ -3,7 +3,8 @@ class SavingsAccount {
   double balance;
 
  public:
-  static double annual_interest_rate = 0.03;
+  SavingsAccount(double);
+  static double annual_interest_rate;
   static void modify_interest_rate(double);
-  double get_monthly_interest();
+  void get_monthly_interest();
 };
