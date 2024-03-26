@@ -2,11 +2,11 @@
 #define ARRAY_H
 
 #include <iostream>
-using namespace  std;
+using namespace std;
 
 
 class Array {
-  friend ostream& operator<<(ostream& const Array&);
+  friend ostream& operator<<(ostream&, const Array&);
   friend istream& operator>>(istream&, Array&);
 
  public:
@@ -15,7 +15,7 @@ class Array {
   ~Array();
   int len() const;
   const Array& operator=(const Array&);
-  bool operator==(const Array&);
+  bool operator==(const Array&) const;
   bool operator!=(const Array& other) const { return !(*this == other); }
   int& operator[](int);
   const int& operator[](int) const;
