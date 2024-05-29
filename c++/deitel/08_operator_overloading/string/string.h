@@ -11,7 +11,7 @@ class String {
   friend istream& operator>>(istream&, const String&);
 
  public:
-  String(const char*="");
+  String(const char* = "");
   String(const String&);
   ~String();
   const String& operator=(const String&);
