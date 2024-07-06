@@ -2,6 +2,7 @@
 #define DATE_H
 
 #include <iostream>
+using namespace std;
 
 
 class Date {
@@ -11,7 +12,7 @@ class Date {
   Date(int m=1, int d=1, int y=1);
   void set_date(int, int, int);
   Date& operator++();
-  Date operator++();
+  Date operator++(int);
   const Date& operator+=(int);
   bool is_leap_year(int) const;
   bool is_end_of_month(int) const;
@@ -20,7 +21,7 @@ class Date {
   int month;
   int day;
   int year;
-  static cont int days[];
+  static const int days[];
 
   void help_increment();
 };
