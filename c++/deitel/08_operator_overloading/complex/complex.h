@@ -15,4 +15,5 @@ class Complex {
   double imaginary;
 };
 
+
 #endif
