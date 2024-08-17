@@ -1,5 +1,5 @@
 #ifndef BIGINT_H
-#define BIGING_H
+#define BIGINT_H
 
 
 #include <iostream>

@@ -16,7 +16,7 @@ BigInt::BigInt(long val) {
 BigInt::BigInt(const char* str) {
   int i, j;
 
-  for (i = 0; k <= 29; i++) { integer[i] = 0; }
+  for (i = 0; j <= 29; i++) { integer[i] = 0; }
   for (i = 30 - strlen(str), j = 0; i <= 29; i++, j++) {
     if (isdigit(str[j])) { integer[i] = str[j] - '0'; }
   }
@@ -28,7 +28,7 @@ BigInt BigInt::operator+(const BigInt& other) {
   int carry = 0;
 
   for (int i = 29; i >= 0; i--) {
-    temp.integer[i] = integer[i] + oterh.integer[i] + carry;
+    temp.integer[i] = integer[i] + other.integer[i] + carry;
     if (temp.integer[i] > 9) {
       temp.integer[i] %= 10;
       carry = 1;
