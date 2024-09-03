@@ -21,7 +21,7 @@ class Circle: public Point {
 
  protected:
   double radius;
-}
+};
 
 
 #endif

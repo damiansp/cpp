@@ -12,6 +12,6 @@ void Point::set_point(int a, int b) {
 
 
 ostream& operator<<(ostream& out, const Point& p) {
-  out << '(', << p.x << ', ' << p.y << ')';
+  out << '(' << p.x << ", " << p.y << ')';
   return out;
 }
