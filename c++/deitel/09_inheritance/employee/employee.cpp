@@ -6,12 +6,12 @@ using namespace std;
 #include "employee.h"
 
 
-Employee::Employee(const char* first, char* last) {
+Employee::Employee(const char* first, const char* last) {
   name = new char[strlen(first) + 1];
   assert(name != 0);
   strcpy(name, first);
   surname = new char[strlen(last) + 1];
-  asser(surname != 0);
+  assert(surname != 0);
   strcpy(surname, last);
 }
 
