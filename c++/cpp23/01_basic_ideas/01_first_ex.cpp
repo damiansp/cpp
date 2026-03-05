@@ -1,5 +1,6 @@
 // A complete C++ program
-import std;
+//import std;
+#include <print>
 
 
 int main() {
