@@ -3,8 +3,8 @@
 #define BUFFSIZE 100  // buffer for getch/ungetch
 
 
-char buff[BUFFSIZE];
-int buffp = 0;  // next free position in <buff>
+static char buff[BUFFSIZE];  // static confines use to this file
+static int buffp = 0;  // next free position in <buff>
 
 /* get a (possibly pushed back) character */
 int getch() {
