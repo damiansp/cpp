@@ -1,5 +1,6 @@
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define MAXWORD 100
@@ -16,8 +17,12 @@ struct tnode {
 
 
 struct tnode* addtree(struct tnode*, char*);
-void treeprint(struct tnode*);
 int getword(char*, int);
+struct tnode* talloc(void);
+void treeprint(struct tnode*);
+char* strdup(char*);
+
+
 
 
 int main() {
@@ -31,10 +36,6 @@ int main() {
   treeprint(root);
   return 0;
 }
-
-
-struct tnode* talloc(void);
-char* strdup(char*);
 
 
 /* add a node with w at or below p */
@@ -54,4 +55,26 @@ struct tnode* addtree(struct tnode* p, char* w) {
 
 
 /* in-order print of tree p */
-void treeprint(struct tnode* p) {}
+void treeprint(struct tnode* p) {
+  if (p != NULL) {
+    treeprint(p->left);
+    printf("%4d %s\n", p->count, p->word);
+    treeprint(p->right);
+  }
+}
+
+
+/* make a tnode */
+struct tnode* talloc(void) {
+  return (struct tnode*) malloc(sizeof(struct tnode));
+}
+
+
+/* copy a string */
+char* strdup(char* s) {
+  char* p;
+
+  p = (char*) malloc(strlen(s) + 1);  // + 1 for '\0'
+  if (p != NULL) { strcp(p, s); }
+  return p;
+}
